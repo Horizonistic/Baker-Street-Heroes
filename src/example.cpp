@@ -1,4 +1,5 @@
 #include <gamescene.h>
+#include <iostream>
 #include "oxygine-framework.h"
 
 #include "../inc/player.h"
@@ -42,35 +43,74 @@ void example_init()
     b2Vec2 gravity(bsh::constant::GRAVITY);
     world = new b2World(gravity);
     
+    
+    // Begin reading level file
+    oxygine::file::buffer buffer;
+    oxygine::file::read("levels.xml", buffer);
+    
+    pugi::xml_document document;
+    document.load_buffer(&buffer.data[0], buffer.size());
+    
+    pugi::xml_node xml_node;
+    
+    // Iterate over all sprites
+    for (const pugi::xpath_node sprite : document.select_node("static").node().select_nodes("sprite"))
+    {
+        std::cout << sprite.node().name() << std::endl;
+    
+        b2Vec2 groundPosition = b2Vec2(0.0f, 0.0f);
+        b2Vec2 groundSize = b2Vec2(0.0f, 0.0f);
+    
+        // Iterate over all attributes of the sprite
+        for (auto attributes : sprite.node().attributes())
+        {
+            oxygine::log::messageln(attributes.name());
+            if (strcasecmp(attributes.name(), "posX") == 0)
+            {
+                groundPosition.x = attributes.as_float();
+            }
+            else if (strcasecmp(attributes.name(), "posY") == 0)
+            {
+                groundPosition.y = attributes.as_float();
+            }
+            else if (strcasecmp(attributes.name(), "sizeX") == 0)
+            {
+                groundSize.x = attributes.as_float();
+            }
+            else if (strcasecmp(attributes.name(), "sizeY") == 0)
+            {
+                groundSize.y = attributes.as_float();
+            }
+        }
         // Creating the ground floor
-    // This creates a static body, immovable,
-    // This is the properties
-    b2Vec2 groundPosition = b2Vec2(0.0f, 5.0f);
-    groundBodyDef = new b2BodyDef;
-    groundBodyDef->position.Set(groundPosition.x, groundPosition.y);
-    groundBody = world->CreateBody(groundBodyDef);
+        // This creates a static body, immovable,
+        // This is the properties
+        groundBodyDef = new b2BodyDef;
+        groundBodyDef->position.Set(groundPosition.x, groundPosition.y);
+        groundBody = world->CreateBody(groundBodyDef);
+        
+        // This creates a polygon
+        // This is the shape
+        b2PolygonShape* groundBox = new b2PolygonShape;
+        groundBox->SetAsBox(groundSize.x / 2, groundSize.y / 2, {groundSize.x / 2, groundSize.y / 2}, 0);
+        groundBody->CreateFixture(groundBox, 0.0f);
+//        groundBox->SetAsBox(20.0f, 1.0f, {30.0f, 0.0f}, 0);
+//        groundBody->CreateFixture(groundBox, 0.0f);
+        
+        spGroundBox = new Box9Sprite();
+//        spGroundBox->setResAnim(terrain);
+
+        spGroundBox->setPosition(bsh::convert(groundPosition));
+        spGroundBox->setSize(bsh::convert(groundSize));
+        getStage()->addChild(spGroundBox);
+    }
     
     
-    // This creates a polygon
-    // This is the shape
-    b2Vec2 groundSize = b2Vec2(20.0f, 5.0f);
-    
-    b2PolygonShape* groundBox = new b2PolygonShape;
-    groundBox->SetAsBox(groundSize.x / 2, groundSize.y / 2, {groundSize.x / 2, groundSize.y / 2}, 0);
-    groundBody->CreateFixture(groundBox, 0.0f);
-    groundBox->SetAsBox(20.0f, 1.0f, {30.0f, 0.0f}, 0);
-    groundBody->CreateFixture(groundBox, 0.0f);
     
     
-    oxygine::ResAnim *terrain = resources.getResAnim("tempterrain");
+//    oxygine::ResAnim *terrain = resources.getResAnim("tempterrain");
     
-    spGroundBox = new Box9Sprite();
-    spGroundBox->setResAnim(terrain);
     
-//    spGroundBox->setAnchor(game::convert(groundPosition));
-    spGroundBox->setPosition(bsh::convert(groundPosition));
-    spGroundBox->setSize(bsh::convert(groundSize));
-    getStage()->addChild(spGroundBox);
     
     
     if (_debugDraw)
