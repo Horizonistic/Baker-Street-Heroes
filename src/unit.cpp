@@ -17,7 +17,7 @@ void bsh::Unit::init(const b2Vec2 &pos, Game* game)
     this->_view->attachTo(game);
     this->_view->setPosition(bsh::convert(pos));
     
-//    _game->_units.push_back(this);
+    _game->_units.push_back(this);
     
     _init();
 }

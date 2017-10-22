@@ -7,6 +7,7 @@
 
 #include "oxygine-framework.h"
 #include "../Box2D/Dynamics/b2World.h"
+#include "unit.h"
 
 namespace bsh
 {
@@ -17,7 +18,7 @@ namespace bsh
 
 DECLARE_SMART(bsh::Game, spGame);
 DECLARE_SMART(bsh::Player, spPlayer);
-DECLARE_SMART(bsh::Unit, spUnit);
+//DECLARE_SMART(bsh::Unit, spUnit);
 
 namespace bsh
 {
@@ -38,8 +39,7 @@ namespace bsh
         
         spPlayer _player;
         
-//        typedef std::vector< spUnit > units;
-//        std::vector< > _units;
+        std::vector< spUnit > _units;
     };
 }
 
