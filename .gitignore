@@ -5,3 +5,5 @@ cmake-build-debug/
 data-ram/
 build_emsc.bat
 build_emsc_release.bat
+oxygine-framework/doc/
+oxygine-framework/examples/
