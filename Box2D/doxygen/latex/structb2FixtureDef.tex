@@ -1,0 +1,57 @@
+\hypertarget{structb2FixtureDef}{}\section{b2\+Fixture\+Def Struct Reference}
+\label{structb2FixtureDef}\index{b2\+Fixture\+Def@{b2\+Fixture\+Def}}
+
+
+{\ttfamily \#include $<$b2\+Fixture.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structb2FixtureDef_aa34ba06bcf0d6d981931a83cf124a602}\label{structb2FixtureDef_aa34ba06bcf0d6d981931a83cf124a602}} 
+\mbox{\hyperlink{structb2FixtureDef_aa34ba06bcf0d6d981931a83cf124a602}{b2\+Fixture\+Def}} ()
+\begin{DoxyCompactList}\small\item\em The constructor sets the default fixture definition values. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{classb2Shape}{b2\+Shape}} $\ast$ \mbox{\hyperlink{structb2FixtureDef_a1e41753d89abf3443e7897e2498a3240}{shape}}
+\item 
+\mbox{\Hypertarget{structb2FixtureDef_a4f77ef2b2585a40899b61faf53db1093}\label{structb2FixtureDef_a4f77ef2b2585a40899b61faf53db1093}} 
+void $\ast$ \mbox{\hyperlink{structb2FixtureDef_a4f77ef2b2585a40899b61faf53db1093}{user\+Data}}
+\begin{DoxyCompactList}\small\item\em Use this to store application specific fixture data. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structb2FixtureDef_a66081c8d0e12d4bdb0b341fb97b46eb6}\label{structb2FixtureDef_a66081c8d0e12d4bdb0b341fb97b46eb6}} 
+float32 \mbox{\hyperlink{structb2FixtureDef_a66081c8d0e12d4bdb0b341fb97b46eb6}{friction}}
+\begin{DoxyCompactList}\small\item\em The friction coefficient, usually in the range \mbox{[}0,1\mbox{]}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structb2FixtureDef_ad7ee26656e4749f7b548d2cc0cf9f168}\label{structb2FixtureDef_ad7ee26656e4749f7b548d2cc0cf9f168}} 
+float32 \mbox{\hyperlink{structb2FixtureDef_ad7ee26656e4749f7b548d2cc0cf9f168}{restitution}}
+\begin{DoxyCompactList}\small\item\em The restitution (elasticity) usually in the range \mbox{[}0,1\mbox{]}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structb2FixtureDef_a6e27d733789a35aa689af2b30a1de0ff}\label{structb2FixtureDef_a6e27d733789a35aa689af2b30a1de0ff}} 
+float32 \mbox{\hyperlink{structb2FixtureDef_a6e27d733789a35aa689af2b30a1de0ff}{density}}
+\begin{DoxyCompactList}\small\item\em The density, usually in kg/m$^\wedge$2. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structb2FixtureDef_ac8cfcc6208663c92861eaab3b3fdc57e}{is\+Sensor}}
+\item 
+\mbox{\Hypertarget{structb2FixtureDef_a4c3e493a13d11ab27fcc2eee9f52fd61}\label{structb2FixtureDef_a4c3e493a13d11ab27fcc2eee9f52fd61}} 
+\mbox{\hyperlink{structb2Filter}{b2\+Filter}} \mbox{\hyperlink{structb2FixtureDef_a4c3e493a13d11ab27fcc2eee9f52fd61}{filter}}
+\begin{DoxyCompactList}\small\item\em Contact filtering data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A fixture definition is used to create a fixture. This class defines an abstract fixture definition. You can reuse fixture definitions safely. 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structb2FixtureDef_ac8cfcc6208663c92861eaab3b3fdc57e}\label{structb2FixtureDef_ac8cfcc6208663c92861eaab3b3fdc57e}} 
+\index{b2\+Fixture\+Def@{b2\+Fixture\+Def}!is\+Sensor@{is\+Sensor}}
+\index{is\+Sensor@{is\+Sensor}!b2\+Fixture\+Def@{b2\+Fixture\+Def}}
+\subsubsection{\texorpdfstring{is\+Sensor}{isSensor}}
+{\footnotesize\ttfamily bool b2\+Fixture\+Def\+::is\+Sensor}
+
+A sensor shape collects contact information but never generates a collision response. \mbox{\Hypertarget{structb2FixtureDef_a1e41753d89abf3443e7897e2498a3240}\label{structb2FixtureDef_a1e41753d89abf3443e7897e2498a3240}} 
+\index{b2\+Fixture\+Def@{b2\+Fixture\+Def}!shape@{shape}}
+\index{shape@{shape}!b2\+Fixture\+Def@{b2\+Fixture\+Def}}
+\subsubsection{\texorpdfstring{shape}{shape}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classb2Shape}{b2\+Shape}}$\ast$ b2\+Fixture\+Def\+::shape}
+
+The shape, this must be set. The shape will be cloned, so you can create the shape on the stack. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Dynamics/b2\+Fixture.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,7 @@
+.idea
+.git
+build/
+cmake-build-debug/
+data-ram/
+build_emsc.bat
+build_emsc_release.bat

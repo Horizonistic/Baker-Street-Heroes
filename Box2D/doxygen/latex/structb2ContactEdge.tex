@@ -1,0 +1,29 @@
+\hypertarget{structb2ContactEdge}{}\section{b2\+Contact\+Edge Struct Reference}
+\label{structb2ContactEdge}\index{b2\+Contact\+Edge@{b2\+Contact\+Edge}}
+
+
+{\ttfamily \#include $<$b2\+Contact.\+h$>$}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structb2ContactEdge_a69015fc22e064eac04ed74f27a13ae78}\label{structb2ContactEdge_a69015fc22e064eac04ed74f27a13ae78}} 
+\mbox{\hyperlink{classb2Body}{b2\+Body}} $\ast$ \mbox{\hyperlink{structb2ContactEdge_a69015fc22e064eac04ed74f27a13ae78}{other}}
+\begin{DoxyCompactList}\small\item\em provides quick access to the other body attached. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structb2ContactEdge_a2fbfaffa0dfdf715fd1a709cff939dee}\label{structb2ContactEdge_a2fbfaffa0dfdf715fd1a709cff939dee}} 
+\mbox{\hyperlink{classb2Contact}{b2\+Contact}} $\ast$ \mbox{\hyperlink{structb2ContactEdge_a2fbfaffa0dfdf715fd1a709cff939dee}{contact}}
+\begin{DoxyCompactList}\small\item\em the contact \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structb2ContactEdge_a606dfacb78dc5c51672e4d7449006b8c}\label{structb2ContactEdge_a606dfacb78dc5c51672e4d7449006b8c}} 
+\mbox{\hyperlink{structb2ContactEdge}{b2\+Contact\+Edge}} $\ast$ \mbox{\hyperlink{structb2ContactEdge_a606dfacb78dc5c51672e4d7449006b8c}{prev}}
+\begin{DoxyCompactList}\small\item\em the previous contact edge in the body\textquotesingle{}s contact list \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structb2ContactEdge_a9af32b3cfadf35a927f4dffcf6338a6d}\label{structb2ContactEdge_a9af32b3cfadf35a927f4dffcf6338a6d}} 
+\mbox{\hyperlink{structb2ContactEdge}{b2\+Contact\+Edge}} $\ast$ \mbox{\hyperlink{structb2ContactEdge_a9af32b3cfadf35a927f4dffcf6338a6d}{next}}
+\begin{DoxyCompactList}\small\item\em the next contact edge in the body\textquotesingle{}s contact list \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A contact edge is used to connect bodies and contacts together in a contact graph where each body is a node and each contact is an edge. A contact edge belongs to a doubly linked list maintained in each attached _body. Each contact has two contact nodes, one for each attached _body.
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Dynamics/\+Contacts/b2\+Contact.\+h\end{DoxyCompactItemize}

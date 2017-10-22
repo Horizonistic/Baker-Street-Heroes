@@ -1,0 +1,82 @@
+\hypertarget{classb2BlockAllocator}{}\section{b2\+Block\+Allocator Class Reference}
+\label{classb2BlockAllocator}\index{b2\+Block\+Allocator@{b2\+Block\+Allocator}}
+
+
+{\ttfamily \#include $<$b2\+Block\+Allocator.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classb2BlockAllocator_a437bf775c23f6e36af11a6d1653d7040}\label{classb2BlockAllocator_a437bf775c23f6e36af11a6d1653d7040}} 
+void $\ast$ \mbox{\hyperlink{classb2BlockAllocator_a437bf775c23f6e36af11a6d1653d7040}{Allocate}} (int32 size)
+\begin{DoxyCompactList}\small\item\em Allocate memory. This will use b2\+Alloc if the size is larger than b2\+\_\+max\+Block\+Size. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classb2BlockAllocator_a945fdf86e260318b930a53dcc887ca8b}\label{classb2BlockAllocator_a945fdf86e260318b930a53dcc887ca8b}} 
+void \mbox{\hyperlink{classb2BlockAllocator_a945fdf86e260318b930a53dcc887ca8b}{Free}} (void $\ast$p, int32 size)
+\begin{DoxyCompactList}\small\item\em Free memory. This will use b2\+Free if the size is larger than b2\+\_\+max\+Block\+Size. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classb2BlockAllocator_a3d3bac86217eba9d1eb6dff2acee0d77}\label{classb2BlockAllocator_a3d3bac86217eba9d1eb6dff2acee0d77}} 
+void {\bfseries Clear} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classb2BlockAllocator_a340443648b0c00b3e901fd5460759a0c}\label{classb2BlockAllocator_a340443648b0c00b3e901fd5460759a0c}} 
+\mbox{\hyperlink{structb2Chunk}{b2\+Chunk}} $\ast$ {\bfseries m\+\_\+chunks}
+\item 
+\mbox{\Hypertarget{classb2BlockAllocator_a6f23a8eb32475bf1766ddd94a8c00b99}\label{classb2BlockAllocator_a6f23a8eb32475bf1766ddd94a8c00b99}} 
+int32 {\bfseries m\+\_\+chunk\+Count}
+\item 
+\mbox{\Hypertarget{classb2BlockAllocator_ad4861c267d5d9392b10a2a0e44ec93e8}\label{classb2BlockAllocator_ad4861c267d5d9392b10a2a0e44ec93e8}} 
+int32 {\bfseries m\+\_\+chunk\+Space}
+\item 
+\mbox{\Hypertarget{classb2BlockAllocator_af61bf3e75cc51ddbfbc5d10681b62df1}\label{classb2BlockAllocator_af61bf3e75cc51ddbfbc5d10681b62df1}} 
+\mbox{\hyperlink{structb2Block}{b2\+Block}} $\ast$ {\bfseries m\+\_\+free\+Lists} \mbox{[}b2\+\_\+block\+Sizes\mbox{]}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static int32 {\bfseries s\+\_\+block\+Sizes} \mbox{[}b2\+\_\+block\+Sizes\mbox{]}
+\item 
+\mbox{\Hypertarget{classb2BlockAllocator_a2a84d0454d9fa81534d7c463b2f24189}\label{classb2BlockAllocator_a2a84d0454d9fa81534d7c463b2f24189}} 
+static uint8 {\bfseries s\+\_\+block\+Size\+Lookup} \mbox{[}b2\+\_\+max\+Block\+Size+1\mbox{]}
+\item 
+\mbox{\Hypertarget{classb2BlockAllocator_a8133162b02c5bb0d8a9abbcadd899524}\label{classb2BlockAllocator_a8133162b02c5bb0d8a9abbcadd899524}} 
+static bool {\bfseries s\+\_\+block\+Size\+Lookup\+Initialized}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This is a small object allocator used for allocating small objects that persist for more than one time step. See\+: \href{http://www.codeproject.com/useritems/Small_Block_Allocator.asp}{\tt http\+://www.\+codeproject.\+com/useritems/\+Small\+\_\+\+Block\+\_\+\+Allocator.\+asp} 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classb2BlockAllocator_a235f8511a784d4a5611ce45b86057ced}\label{classb2BlockAllocator_a235f8511a784d4a5611ce45b86057ced}} 
+\index{b2\+Block\+Allocator@{b2\+Block\+Allocator}!s\+\_\+block\+Sizes@{s\+\_\+block\+Sizes}}
+\index{s\+\_\+block\+Sizes@{s\+\_\+block\+Sizes}!b2\+Block\+Allocator@{b2\+Block\+Allocator}}
+\subsubsection{\texorpdfstring{s\+\_\+block\+Sizes}{s\_blockSizes}}
+{\footnotesize\ttfamily int32 b2\+Block\+Allocator\+::s\+\_\+block\+Sizes\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= 
+\{
+    16,     
+    32,     
+    64,     
+    96,     
+    128,    
+    160,    
+    192,    
+    224,    
+    256,    
+    320,    
+    384,    
+    448,    
+    512,    
+    640,    
+\}
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Common/b2\+Block\+Allocator.\+h\item 
+Common/b2\+Block\+Allocator.\+cpp\end{DoxyCompactItemize}

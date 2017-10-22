@@ -1,0 +1,59 @@
+\hypertarget{classb2ContactSolver}{}\section{b2\+Contact\+Solver Class Reference}
+\label{classb2ContactSolver}\index{b2\+Contact\+Solver@{b2\+Contact\+Solver}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classb2ContactSolver_ac89198165ed16eb6080d84f93229ea88}\label{classb2ContactSolver_ac89198165ed16eb6080d84f93229ea88}} 
+{\bfseries b2\+Contact\+Solver} (\mbox{\hyperlink{structb2ContactSolverDef}{b2\+Contact\+Solver\+Def}} $\ast$def)
+\item 
+\mbox{\Hypertarget{classb2ContactSolver_a56fc9a51a49879dc2dadd5c33ed70b0c}\label{classb2ContactSolver_a56fc9a51a49879dc2dadd5c33ed70b0c}} 
+void {\bfseries Initialize\+Velocity\+Constraints} ()
+\item 
+\mbox{\Hypertarget{classb2ContactSolver_aa96052cd2f709bfc416148fefb028522}\label{classb2ContactSolver_aa96052cd2f709bfc416148fefb028522}} 
+void {\bfseries Warm\+Start} ()
+\item 
+\mbox{\Hypertarget{classb2ContactSolver_abec74e1246fdbfddbd2236602da63e1f}\label{classb2ContactSolver_abec74e1246fdbfddbd2236602da63e1f}} 
+void {\bfseries Solve\+Velocity\+Constraints} ()
+\item 
+\mbox{\Hypertarget{classb2ContactSolver_aff5922a65bb5ccf473c425719bb8938d}\label{classb2ContactSolver_aff5922a65bb5ccf473c425719bb8938d}} 
+void {\bfseries Store\+Impulses} ()
+\item 
+\mbox{\Hypertarget{classb2ContactSolver_a4696834a137001bc74faec643b117031}\label{classb2ContactSolver_a4696834a137001bc74faec643b117031}} 
+bool {\bfseries Solve\+Position\+Constraints} ()
+\item 
+\mbox{\Hypertarget{classb2ContactSolver_a6604c8fc034f89ad2e3461f4b5c20844}\label{classb2ContactSolver_a6604c8fc034f89ad2e3461f4b5c20844}} 
+bool {\bfseries Solve\+T\+O\+I\+Position\+Constraints} (int32 toi\+IndexA, int32 toi\+IndexB)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classb2ContactSolver_aac78600ba5fd3249bac20678cbc9f101}\label{classb2ContactSolver_aac78600ba5fd3249bac20678cbc9f101}} 
+\mbox{\hyperlink{structb2TimeStep}{b2\+Time\+Step}} {\bfseries m\+\_\+step}
+\item 
+\mbox{\Hypertarget{classb2ContactSolver_a39b973c8311e522f44cda9053dcea5a8}\label{classb2ContactSolver_a39b973c8311e522f44cda9053dcea5a8}} 
+\mbox{\hyperlink{structb2Position}{b2\+Position}} $\ast$ {\bfseries m\+\_\+positions}
+\item 
+\mbox{\Hypertarget{classb2ContactSolver_aae6dae9341dbbd780e7b3ec6b1b332f9}\label{classb2ContactSolver_aae6dae9341dbbd780e7b3ec6b1b332f9}} 
+\mbox{\hyperlink{structb2Velocity}{b2\+Velocity}} $\ast$ {\bfseries m\+\_\+velocities}
+\item 
+\mbox{\Hypertarget{classb2ContactSolver_a6a2c9f5470a469e50d7f33f8d9095abe}\label{classb2ContactSolver_a6a2c9f5470a469e50d7f33f8d9095abe}} 
+\mbox{\hyperlink{classb2StackAllocator}{b2\+Stack\+Allocator}} $\ast$ {\bfseries m\+\_\+allocator}
+\item 
+\mbox{\Hypertarget{classb2ContactSolver_ac0f4106f7cf67d185a7a4f3fd5a4e4ce}\label{classb2ContactSolver_ac0f4106f7cf67d185a7a4f3fd5a4e4ce}} 
+\mbox{\hyperlink{structb2ContactPositionConstraint}{b2\+Contact\+Position\+Constraint}} $\ast$ {\bfseries m\+\_\+position\+Constraints}
+\item 
+\mbox{\Hypertarget{classb2ContactSolver_a616319ffa7ceb509b8189f07a070f7c7}\label{classb2ContactSolver_a616319ffa7ceb509b8189f07a070f7c7}} 
+\mbox{\hyperlink{structb2ContactVelocityConstraint}{b2\+Contact\+Velocity\+Constraint}} $\ast$ {\bfseries m\+\_\+velocity\+Constraints}
+\item 
+\mbox{\Hypertarget{classb2ContactSolver_aa1c7370d1d2681f9d49a494f9b0a38c6}\label{classb2ContactSolver_aa1c7370d1d2681f9d49a494f9b0a38c6}} 
+\mbox{\hyperlink{classb2Contact}{b2\+Contact}} $\ast$$\ast$ {\bfseries m\+\_\+contacts}
+\item 
+\mbox{\Hypertarget{classb2ContactSolver_ab5b74c0fadf0d5d8997700b5ff91ea91}\label{classb2ContactSolver_ab5b74c0fadf0d5d8997700b5ff91ea91}} 
+int {\bfseries m\+\_\+count}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Dynamics/\+Contacts/b2\+Contact\+Solver.\+h\item 
+Dynamics/\+Contacts/b2\+Contact\+Solver.\+cpp\end{DoxyCompactItemize}
