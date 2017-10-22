@@ -56,16 +56,66 @@ void example_init()
     // Iterate over all sprites
     for (const pugi::xpath_node sprite : document.select_node("static").node().select_nodes("sprite"))
     {
-        std::cout << sprite.node().name() << std::endl;
+        oxygine::log::messageln(sprite.node().name());
     
         b2Vec2 groundPosition = b2Vec2(0.0f, 0.0f);
         b2Vec2 groundSize = b2Vec2(0.0f, 0.0f);
+        oxygine::ResAnim* resAnim;
+        oxygine::Box9Sprite::StretchMode stretchModeHorizontal;
+        oxygine::Box9Sprite::StretchMode stretchModeVertical;
     
         // Iterate over all attributes of the sprite
         for (auto attributes : sprite.node().attributes())
         {
             oxygine::log::messageln(attributes.name());
-            if (strcasecmp(attributes.name(), "posX") == 0)
+            if (strcasecmp(attributes.name(), "name") == 0)
+            {
+                resAnim = resources.getResAnim(attributes.as_string());
+            }
+            else if (strcasecmp(attributes.name(), "stretchHor") == 0)
+            {
+                switch (attributes.as_int())
+                {
+                    case 1:
+                        stretchModeHorizontal = oxygine::Box9Sprite::StretchMode::TILING;
+                        break;
+    
+                    case 2:
+                        stretchModeHorizontal = oxygine::Box9Sprite::StretchMode::TILING_FULL;
+                        break;
+    
+                    case 3:
+                        stretchModeHorizontal = oxygine::Box9Sprite::StretchMode::STRETCHING;
+                        break;
+    
+                    default:
+                        stretchModeHorizontal = oxygine::Box9Sprite::StretchMode::STRETCHING;
+                        break;
+                }
+                
+            }
+            else if (strcasecmp(attributes.name(), "stretchVer") == 0)
+            {
+                switch (attributes.as_int())
+                {
+                    case 1:
+                        stretchModeVertical = oxygine::Box9Sprite::StretchMode::TILING;
+                        break;
+        
+                    case 2:
+                        stretchModeVertical = oxygine::Box9Sprite::StretchMode::TILING_FULL;
+                        break;
+        
+                    case 3:
+                        stretchModeVertical = oxygine::Box9Sprite::StretchMode::STRETCHING;
+                        break;
+                        
+                    default:
+                        stretchModeVertical = oxygine::Box9Sprite::StretchMode::STRETCHING;
+                        break;
+                }
+            }
+            else if (strcasecmp(attributes.name(), "posX") == 0)
             {
                 groundPosition.x = attributes.as_float();
             }
@@ -94,24 +144,16 @@ void example_init()
         b2PolygonShape* groundBox = new b2PolygonShape;
         groundBox->SetAsBox(groundSize.x / 2, groundSize.y / 2, {groundSize.x / 2, groundSize.y / 2}, 0);
         groundBody->CreateFixture(groundBox, 0.0f);
-//        groundBox->SetAsBox(20.0f, 1.0f, {30.0f, 0.0f}, 0);
-//        groundBody->CreateFixture(groundBox, 0.0f);
         
         spGroundBox = new Box9Sprite();
-//        spGroundBox->setResAnim(terrain);
-
+        spGroundBox->setResAnim(resAnim);
+        spGroundBox->setHorizontalMode(stretchModeHorizontal);
+        spGroundBox->setVerticalMode(stretchModeVertical);
+        
         spGroundBox->setPosition(bsh::convert(groundPosition));
         spGroundBox->setSize(bsh::convert(groundSize));
         getStage()->addChild(spGroundBox);
     }
-    
-    
-    
-    
-//    oxygine::ResAnim *terrain = resources.getResAnim("tempterrain");
-    
-    
-    
     
     if (_debugDraw)
     {

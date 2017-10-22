@@ -1,8 +1,10 @@
 <static>
     <sprite name="tempterrain"
+            stretchHor="2" stretchVer="2"
             posX="0.0" posY="6.0"
-            sizeX="15.0" sizeY="5.0"/>
+            sizeX="15.3" sizeY="5.0"/>
     <sprite name="tempterrain"
+            stretchHor="2" stretchVer="2"
             posX="10.0" posY="4.0"
             sizeX="2.0" sizeY="2.0"/>
 </static>
