@@ -1,5 +1,10 @@
 <?xml version="1.0"?>
 <resources>
+    <set path="ui"/>
+    <atlas>
+        <image file="buttons.png" cols="1"/>
+    </atlas>
+
     <set path="fonts" />
     <font file="main.fnt" />
 </resources>
