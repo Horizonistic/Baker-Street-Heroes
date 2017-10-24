@@ -48,7 +48,7 @@ void run()
 
     // Initialize Oxygine's internal stuff
     core::init_desc desc;
-    desc.title = "Oxygine Application";
+    desc.title = "Baker Street Heroes";
 
 #if OXYGINE_SDL || OXYGINE_EMSCRIPTEN
     // The initial window size can be set up here on SDL builds
@@ -68,7 +68,7 @@ void run()
     getStage()->setSize(size);
 
     // DebugActor is a helper actor node. It shows FPS, memory usage and other useful stuff
-    DebugActor::show();
+//    DebugActor::show();
 
     // Initializes our example game. See example.cpp
     example_init();
