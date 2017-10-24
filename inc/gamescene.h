@@ -17,7 +17,7 @@ DECLARE_SMART(bsh::GameScene, spGameScene)
 
 namespace bsh
 {
-    class GameScene: public Scene
+    class GameScene : public Scene
     {
     public:
         static spGameScene instance;
@@ -26,6 +26,7 @@ namespace bsh
     private:
         const b2World &_world;
         spGame _game;
+        oxygine::spActor _button;
         
         void onEvent(oxygine::Event* ev);
     };

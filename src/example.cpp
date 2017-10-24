@@ -4,6 +4,7 @@
 
 #include "../inc/player.h"
 #include "../inc/scene.h"
+#include "../inc/resources.h"
 
 #include "../Box2D/Collision/Shapes/b2PolygonShape.h"
 #include "../Box2D/Dynamics/b2Body.h"
@@ -27,9 +28,6 @@ b2BodyDef* groundBodyDef;
 b2Body* groundBody;
 oxygine::Box9Sprite* spGroundBox;
 
-oxygine::Resources resources;
-
-
 void example_preinit()
 {
 }
@@ -37,8 +35,9 @@ void example_preinit()
 //called from main.cpp
 void example_init()
 {
+    bsh::Res::loadUI();
+    bsh::Res::loadTerrain();
     
-    resources.loadXML("world.xml");
     // Creating the world, because it's just that easy
     b2Vec2 gravity(bsh::constant::GRAVITY);
     world = new b2World(gravity);
@@ -58,9 +57,10 @@ void example_init()
     {
         oxygine::log::messageln(sprite.node().name());
     
+        // Settings for the sprite to load
         b2Vec2 groundPosition = b2Vec2(0.0f, 0.0f);
         b2Vec2 groundSize = b2Vec2(0.0f, 0.0f);
-        oxygine::ResAnim* resAnim;
+        oxygine::ResAnim *resAnim;
         oxygine::Box9Sprite::StretchMode stretchModeHorizontal;
         oxygine::Box9Sprite::StretchMode stretchModeVertical;
     
@@ -70,7 +70,7 @@ void example_init()
             oxygine::log::messageln(attributes.name());
             if (strcasecmp(attributes.name(), "name") == 0)
             {
-                resAnim = resources.getResAnim(attributes.as_string());
+                resAnim = bsh::Res::terrain.getResAnim(attributes.as_string());
             }
             else if (strcasecmp(attributes.name(), "stretchHor") == 0)
             {
@@ -166,30 +166,23 @@ void example_init()
     _debugDraw->attachTo(getStage());
     _debugDraw->setWorld(bsh::constant::SCALE, world);
     _debugDraw->setPriority(1);
-    
+
     bsh::GameScene::instance = new bsh::GameScene(*world);
+    bsh::GameScene::instance->show();
     
-    
-    //load xml file with resources definition
-
-    //lets create our client code simple actor
-    //spMainActor was defined above as smart intrusive pointer (read more: http://www.boost.org/doc/libs/1_60_0/libs/smart_ptr/intrusive_ptr.html)
-//    spMainActor actor = new MainActor;
-
-    //and add it to Stage as child
-//    getStage()->addChild(actor);
 }
-
 
 //called each frame from main.cpp
 void example_update() {
     // timeStep, velocityIterations, positionIterations
-    world->Step(1.0f / 60.0f, 6, 2);
+    // todo: get physics to work with any framerate
+    // This will require a way to apply force based on us.dt in doUpadate in classes like bsh::Player
+    world->Step(IVideoDriver::_stats.duration / 1000.0f, 6, 2);
+    
 }
 
 //called each frame from main.cpp
 void example_destroy()
 {
-    //free previously loaded resources
-//    gameResources.free();
+    bsh::Res::free();
 }
