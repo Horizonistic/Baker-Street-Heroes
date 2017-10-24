@@ -4,7 +4,4 @@
 	<atlas>
 		<image file="defaultPlayerAnim.png" cols="2"/>
 	</atlas>
-	
-	<set path="fonts"/>
-	<font file="main.fnt"/>
 </resources>

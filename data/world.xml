@@ -4,7 +4,4 @@
 	<atlas>
 		<image file="tempterrain.png"/>
 	</atlas>
-	
-	<set path="fonts"/>
-	<font file="main.fnt"/>
 </resources>
