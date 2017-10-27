@@ -31,18 +31,6 @@ void example_preinit()
 //called from main.cpp
 void example_init()
 {
-    if (_debugDraw)
-    {
-        _debugDraw->detach();
-        _debugDraw = 0;
-        return;
-    }
-    _debugDraw = new Box2DDraw();
-    _debugDraw->SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_pairBit | b2Draw::e_centerOfMassBit);
-    _debugDraw->attachTo(getStage());
-    _debugDraw->setWorld(bsh::constant::SCALE, world);
-    _debugDraw->setPriority(1);
-    
     bsh::Res::loadUI();
     bsh::Res::loadTerrain();
     bsh::Res::loadCharacters();
@@ -54,6 +42,18 @@ void example_init()
     bsh::GameScene::instance = new bsh::GameScene(*world);
     bsh::GameScene::instance->show();
     
+    
+    if (_debugDraw)
+    {
+        _debugDraw->detach();
+        _debugDraw = 0;
+        return;
+    }
+    _debugDraw = new Box2DDraw();
+    _debugDraw->SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_pairBit | b2Draw::e_centerOfMassBit);
+    _debugDraw->attachTo(getStage());
+    _debugDraw->setWorld(bsh::constant::SCALE, world);
+    _debugDraw->setPriority(1);
 }
 
 //called each frame from main.cpp
