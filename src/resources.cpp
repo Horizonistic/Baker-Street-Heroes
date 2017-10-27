@@ -6,6 +6,7 @@
 
 oxygine::Resources bsh::Res::ui;
 oxygine::Resources bsh::Res::terrain;
+oxygine::Resources bsh::Res::characters;
 
 void bsh::Res::loadUI()
 {
@@ -15,6 +16,11 @@ void bsh::Res::loadUI()
 void bsh::Res::loadTerrain()
 {
     bsh::Res::terrain.loadXML("world.xml");
+}
+
+void bsh::Res::loadCharacters()
+{
+    bsh::Res::characters.loadXML("characters.xml");
 }
 
 void bsh::Res::free()

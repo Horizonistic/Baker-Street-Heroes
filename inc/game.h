@@ -28,18 +28,18 @@ namespace bsh
         Game();
         ~Game();
         
-        void init(b2World &world);
+        void init(b2World *world);
+        void loadLevel(std::string level);
 
     protected:
         friend class Unit;
+    
+        b2World *_world;
+        oxygine::spActor _ui;
+        spPlayer _player;
+        std::vector< spUnit > _units;
         
         void doUpdate(const oxygine::UpdateState &us) override;
-        
-        oxygine::spActor _ui;
-        
-        spPlayer _player;
-        
-        std::vector< spUnit > _units;
     };
 }
 

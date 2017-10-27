@@ -24,10 +24,6 @@ using namespace oxygine;
 Box2DDraw *_debugDraw;
 b2World* world;
 
-b2BodyDef* groundBodyDef;
-b2Body* groundBody;
-oxygine::Box9Sprite* spGroundBox;
-
 void example_preinit()
 {
 }
@@ -35,126 +31,6 @@ void example_preinit()
 //called from main.cpp
 void example_init()
 {
-    bsh::Res::loadUI();
-    bsh::Res::loadTerrain();
-    
-    // Creating the world, because it's just that easy
-    b2Vec2 gravity(bsh::constant::GRAVITY);
-    world = new b2World(gravity);
-    
-    
-    // Begin reading level file
-    oxygine::file::buffer buffer;
-    oxygine::file::read("levels.xml", buffer);
-    
-    pugi::xml_document document;
-    document.load_buffer(&buffer.data[0], buffer.size());
-    
-    pugi::xml_node xml_node;
-    
-    // Iterate over all sprites
-    for (const pugi::xpath_node sprite : document.select_node("static").node().select_nodes("sprite"))
-    {
-        oxygine::log::messageln(sprite.node().name());
-    
-        // Settings for the sprite to load
-        b2Vec2 groundPosition = b2Vec2(0.0f, 0.0f);
-        b2Vec2 groundSize = b2Vec2(0.0f, 0.0f);
-        oxygine::ResAnim *resAnim;
-        oxygine::Box9Sprite::StretchMode stretchModeHorizontal;
-        oxygine::Box9Sprite::StretchMode stretchModeVertical;
-    
-        // Iterate over all attributes of the sprite
-        for (auto attributes : sprite.node().attributes())
-        {
-            oxygine::log::messageln(attributes.name());
-            if (strcasecmp(attributes.name(), "name") == 0)
-            {
-                resAnim = bsh::Res::terrain.getResAnim(attributes.as_string());
-            }
-            else if (strcasecmp(attributes.name(), "stretchHor") == 0)
-            {
-                switch (attributes.as_int())
-                {
-                    case 1:
-                        stretchModeHorizontal = oxygine::Box9Sprite::StretchMode::TILING;
-                        break;
-    
-                    case 2:
-                        stretchModeHorizontal = oxygine::Box9Sprite::StretchMode::TILING_FULL;
-                        break;
-    
-                    case 3:
-                        stretchModeHorizontal = oxygine::Box9Sprite::StretchMode::STRETCHING;
-                        break;
-    
-                    default:
-                        stretchModeHorizontal = oxygine::Box9Sprite::StretchMode::STRETCHING;
-                        break;
-                }
-                
-            }
-            else if (strcasecmp(attributes.name(), "stretchVer") == 0)
-            {
-                switch (attributes.as_int())
-                {
-                    case 1:
-                        stretchModeVertical = oxygine::Box9Sprite::StretchMode::TILING;
-                        break;
-        
-                    case 2:
-                        stretchModeVertical = oxygine::Box9Sprite::StretchMode::TILING_FULL;
-                        break;
-        
-                    case 3:
-                        stretchModeVertical = oxygine::Box9Sprite::StretchMode::STRETCHING;
-                        break;
-                        
-                    default:
-                        stretchModeVertical = oxygine::Box9Sprite::StretchMode::STRETCHING;
-                        break;
-                }
-            }
-            else if (strcasecmp(attributes.name(), "posX") == 0)
-            {
-                groundPosition.x = attributes.as_float();
-            }
-            else if (strcasecmp(attributes.name(), "posY") == 0)
-            {
-                groundPosition.y = attributes.as_float();
-            }
-            else if (strcasecmp(attributes.name(), "sizeX") == 0)
-            {
-                groundSize.x = attributes.as_float();
-            }
-            else if (strcasecmp(attributes.name(), "sizeY") == 0)
-            {
-                groundSize.y = attributes.as_float();
-            }
-        }
-        // Creating the ground floor
-        // This creates a static body, immovable,
-        // This is the properties
-        groundBodyDef = new b2BodyDef;
-        groundBodyDef->position.Set(groundPosition.x, groundPosition.y);
-        groundBody = world->CreateBody(groundBodyDef);
-        
-        // This creates a polygon
-        // This is the shape
-        b2PolygonShape* groundBox = new b2PolygonShape;
-        groundBox->SetAsBox(groundSize.x / 2, groundSize.y / 2, {groundSize.x / 2, groundSize.y / 2}, 0);
-        groundBody->CreateFixture(groundBox, 0.0f);
-        
-        spGroundBox = new Box9Sprite();
-        spGroundBox->setResAnim(resAnim);
-        spGroundBox->setHorizontalMode(stretchModeHorizontal);
-        spGroundBox->setVerticalMode(stretchModeVertical);
-        
-        spGroundBox->setPosition(bsh::convert(groundPosition));
-        spGroundBox->setSize(bsh::convert(groundSize));
-        getStage()->addChild(spGroundBox);
-    }
-    
     if (_debugDraw)
     {
         _debugDraw->detach();
@@ -166,6 +42,14 @@ void example_init()
     _debugDraw->attachTo(getStage());
     _debugDraw->setWorld(bsh::constant::SCALE, world);
     _debugDraw->setPriority(1);
+    
+    bsh::Res::loadUI();
+    bsh::Res::loadTerrain();
+    bsh::Res::loadCharacters();
+    
+    // Creating the world, because it's just that easy
+    b2Vec2 gravity(bsh::constant::GRAVITY);
+    world = new b2World(gravity);
 
     bsh::GameScene::instance = new bsh::GameScene(*world);
     bsh::GameScene::instance->show();

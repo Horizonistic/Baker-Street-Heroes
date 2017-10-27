@@ -14,10 +14,12 @@ namespace bsh
     public:
         static oxygine::Resources ui;
         static oxygine::Resources terrain;
+        static oxygine::Resources characters;
     
         Res() {};
         static void loadUI();
         static void loadTerrain();
+        static void loadCharacters();
         static void free();
     };
 }

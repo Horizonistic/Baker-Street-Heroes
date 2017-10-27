@@ -9,7 +9,12 @@
 #include "../Box2D/Dynamics/b2World.h"
 #include <global.h>
 
+namespace bsh
+{
+    class Player;
+}
 
+DECLARE_SMART(bsh::Player, spPlayer);
 
 namespace bsh
 {
@@ -22,7 +27,7 @@ namespace bsh
             RIGHT,
         };
     
-        explicit Player(b2World &world);
+        Player(b2World &world, b2Body *body);
         ~Player() override;
         std::vector< b2Vec2 > getData();
     
@@ -40,7 +45,5 @@ namespace bsh
         oxygine::spSprite _sprite;
     };
 }
-
-DECLARE_SMART(bsh::Player, spPlayer);
 
 #endif //GAME_PLAYER_H

@@ -54,6 +54,7 @@ void run()
     // The initial window size can be set up here on SDL builds
     desc.w = 1900;
     desc.h = 1000;
+    desc.vsync = true;
     // Marmalade settings can be modified from the emulator's menu
 #endif
 

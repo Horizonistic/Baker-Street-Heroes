@@ -7,18 +7,19 @@
 #include "../inc/player.h"
 #include "../Box2D/Box2D.h"
 
-bsh::Player::Player(b2World &world): _world(world)
+bsh::Player::Player(b2World &world, b2Body *body) : _world(world)
 {
+    this->_body = body;
     this->_sprite = new oxygine::Sprite();
     
-    _resources.loadXML("player.xml");
+    _resources.loadXML("characters.xml");
     oxygine::ResAnim *player = _resources.getResAnim("defaultPlayerAnim");
     this->_sprite->setResAnim(player);
     this->_sprite->attachTo(this);
     this->_sprite->addTween(oxygine::TweenAnim(player), 1000, -1);
-    this->_sprite->setScale(0.02f * bsh::constant::SCALE);
+    this->_sprite->setScale(0.01f * bsh::constant::SCALE);
     
-    b2Vec2 position = b2Vec2(9.0f, 0.0f);
+    b2Vec2 position = this->_body->GetPosition();
     
     this->setPosition(bsh::convert(position));
     // When setting sprite position, it's based off of what it's attached to
@@ -27,26 +28,7 @@ bsh::Player::Player(b2World &world): _world(world)
     
     // Creating a dynamic body
     // Creating the definition, setting position and type
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(position.x, position.y);
-    bodyDef.fixedRotation = true;
-    this->_body = this->_world.CreateBody(&bodyDef);
     
-    // Creating polygon
-    b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(1.0f / 2, 1.0f / 2, {1.0f / 2, 1.0f / 2}, 0);
-    
-    // Create body's fixture (figure out more of what that means)
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &dynamicBox;
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.0f;
-    
-    this->_body->CreateFixture(&fixtureDef);
-    
-    
-    oxygine::getStage()->addChild(this);
 }
 
 bsh::Player::~Player()
