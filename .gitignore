@@ -8,3 +8,5 @@ build_emsc_release.bat
 oxygine-framework/doc/
 oxygine-framework/examples/
 *.xcf
+Box2D/doxygen/
+Box2D/doxygen_config
