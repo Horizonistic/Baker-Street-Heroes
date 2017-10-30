@@ -15,7 +15,6 @@ bsh::GameScene::GameScene(b2World &world): _world(world)
     this->_game->init(&world);
     this->_game->attachTo(this->_view);
     this->_game->setClock(new oxygine::Clock);
-    // todo: create new game instance
     
     spButton btn = oxygine::initActor(new Button,
                                               oxygine::arg_resAnim = bsh::Res::ui.getResAnim("buttons"),

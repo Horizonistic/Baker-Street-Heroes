@@ -1349,7 +1349,17 @@ namespace oxygine
             item = item.next_sibling();
         }
     }
-
+    
+    void Actor::setEntityType(entityType type)
+    {
+        this->_entityType = type;
+    }
+    
+    entityType Actor::getEntityType() const
+    {
+        return this->_entityType;
+    }
+    
     Vector2 convert_global2local_(const Actor* child, const Actor* parent, Vector2 pos)
     {
         if (child->getParent() && child->getParent() != parent)

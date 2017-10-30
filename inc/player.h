@@ -29,6 +29,10 @@ namespace bsh
     
         Player(b2World &world, b2Body *body);
         ~Player() override;
+        
+        void beginTouchingGround();
+        void endTouchingGround();
+        
         std::vector< b2Vec2 > getData();
     
     protected:
@@ -38,7 +42,7 @@ namespace bsh
         b2World &_world;
         b2Body *_body;
     
-        b2Vec2 velocity;
+        bool _canJump;
         moveState _moveState;
     
         oxygine::Resources _resources;

@@ -7,11 +7,11 @@
         <sprite name="tempterrain"
                 stretchHor="2" stretchVer="2"
                 posX="10.0" posY="4.0"
-                sizeX="2.0" sizeY="2.0"/>
+                sizeX="2.0" sizeY="1.0"/>
     </terrain>
     <player>
         <sprite name="defaultPlayerAnim"
                 posX="0.0" posY="0.0"
-                sizeX="2.0" sizeY="2.0"/>
+                sizeX="0.5" sizeY="0.97"/>
     </player>
 </bodies>

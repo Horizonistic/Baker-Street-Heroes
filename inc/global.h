@@ -9,9 +9,6 @@
 #include "../Box2D/Common/b2Math.h"
 #include "player.h"
 
-//DECLARE_SMART(Player, spPlayer);
-//DECLARE_SMART(Unit, spUnit);
-
 namespace bsh
 {
     namespace constant

@@ -1,5 +1,6 @@
 #include <gamescene.h>
 #include <iostream>
+#include <contactListener.h>
 #include "oxygine-framework.h"
 
 #include "../inc/player.h"
@@ -23,6 +24,7 @@ using namespace oxygine;
 // All Box2D globals (like world)
 Box2DDraw *_debugDraw;
 b2World* world;
+bsh::ContactListener playerContactListener;
 
 void example_preinit()
 {
@@ -41,6 +43,8 @@ void example_init()
 
     bsh::GameScene::instance = new bsh::GameScene(*world);
     bsh::GameScene::instance->show();
+    
+    world->SetContactListener(&playerContactListener);
     
     
     if (_debugDraw)

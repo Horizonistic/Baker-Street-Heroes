@@ -1,4 +1,5 @@
 #pragma once
+
 #include "oxygine-include.h"
 #include "oxygine-forwards.h"
 #include "core/Object.h"
@@ -11,8 +12,16 @@
 #include "TouchEvent.h"
 #include "Tween.h"
 
+
 namespace oxygine
 {
+    enum entityType
+    {
+        TERRAIN = 0x0001,
+        PLAYER = 0x0002,
+        PLAYER_SENSOR = 0x0003,
+    };
+    
     class TweenOptions
     {
     public:
@@ -290,7 +299,13 @@ namespace oxygine
 
         virtual bool getBounds(RectF&) const { return false; }
 
+        // Custom
+        void setEntityType(entityType type);
+        entityType getEntityType() const;
+        
     protected:
+        // Custom
+        entityType _entityType;
 
         Material* _material;
         Stage* _stage;
