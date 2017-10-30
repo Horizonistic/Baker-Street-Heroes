@@ -7,21 +7,18 @@
 #include "../inc/player.h"
 #include "../Box2D/Box2D.h"
 
-bsh::Player::Player(b2World &world, b2Body *body) : _world(world), _canJump(true)
+bsh::Player::Player(b2World &world, b2Body *body, oxygine::ResAnim *resAnim) : _world(world), _canJump(true)
 {
     this->setEntityType(oxygine::entityType::PLAYER);
     this->_body = body;
     this->_sprite = new oxygine::Sprite();
     
-    _resources.loadXML("characters.xml");
-    oxygine::ResAnim *player = _resources.getResAnim("defaultPlayerAnim");
-    this->_sprite->setResAnim(player);
+    this->_sprite->setResAnim(resAnim);
     this->_sprite->attachTo(this);
-    this->_sprite->addTween(oxygine::TweenAnim(player), 1000, -1);
-    this->_sprite->setScale(0.01f * bsh::constant::SCALE);
+//    this->_sprite->addTween(oxygine::TweenAnim(resAnim), 1000, -1);
+    this->_sprite->setScale(0.005f * bsh::constant::SCALE);
     
-    b2Vec2 position = this->_body->GetPosition();
-    this->setPosition(bsh::convert(position));
+    this->setPosition(bsh::convert(this->_body->GetPosition()));
     
     this->_body->SetUserData(this);
 //    this->_body->SetUserData((void*) constant::_entityType::PLAYER);
@@ -76,6 +73,7 @@ void bsh::Player::doUpdate(const oxygine::UpdateState &us)
         case LEFT:
             if (vel.x > -5)
                 vel.x = -5;
+            this->_sprite->setFlippedX(true);
             break;
 
         case STOP:
@@ -84,6 +82,7 @@ void bsh::Player::doUpdate(const oxygine::UpdateState &us)
             break;
             
         case RIGHT:
+            this->_sprite->setFlippedX(false);
             if (vel.x < 5)
                 vel.x = 5;
             break;

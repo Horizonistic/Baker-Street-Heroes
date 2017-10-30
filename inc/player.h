@@ -27,7 +27,7 @@ namespace bsh
             RIGHT,
         };
     
-        Player(b2World &world, b2Body *body);
+        Player(b2World &world, b2Body *body, oxygine::ResAnim *resAnim);
         ~Player() override;
         
         void beginTouchingGround();

@@ -232,7 +232,7 @@ void bsh::Game::loadLevel(std::string)
         fixtureDef.filter.maskBits = oxygine::entityType::TERRAIN;
         body->CreateFixture(&fixtureDef);
     
-        this->_player = new Player(*this->_world, body);
+        this->_player = new Player(*this->_world, body, resAnim);
         
         oxygine::getStage()->addChild(this->_player);
     }
