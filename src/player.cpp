@@ -4,10 +4,13 @@
 
 #include "core/log.h"
 #include <iostream>
+#include <resources.h>
 #include "../inc/player.h"
 #include "../Box2D/Box2D.h"
 
-bsh::Player::Player(b2World &world, b2Body *body, oxygine::ResAnim *resAnim) : _world(world), _canJump(true)
+bsh::Player::Player(b2World &world, b2Body *body, oxygine::ResAnim *resAnim) :
+        _world(world),
+        _canJump(false)
 {
     this->setEntityType(oxygine::entityType::PLAYER);
     this->_body = body;
@@ -38,11 +41,11 @@ bsh::Player::~Player()
 
 void bsh::Player::doUpdate(const oxygine::UpdateState &us)
 {
-    float speed = 1000.0f * (us.dt / 1000.0f);
+//    float speed = 1000.0f * (us.dt / 1000.0f);
     const Uint8* data = SDL_GetKeyboardState(0);
     
-    
     b2Vec2 vel = this->_body->GetLinearVelocity();
+    
     bool moving = false;
     
     // Determine which keys are pressed and set move state accordingly
@@ -58,8 +61,8 @@ void bsh::Player::doUpdate(const oxygine::UpdateState &us)
     }
     if (data[SDL_SCANCODE_SPACE] && this->_canJump)
     {
-        moving = true;
-        vel.y = -10; //upwards - don't change x velocity
+//        moving = true;
+        vel.y = -constant::PLAYER_JUMP_FORCE; //upwards - don't change x velocity
 //        _body->SetLinearVelocity(vel);
     }
     if (!moving)
@@ -68,27 +71,77 @@ void bsh::Player::doUpdate(const oxygine::UpdateState &us)
     }
     
     float force = 0;
+    oxygine::ResAnim *resAnim;
     switch (_moveState)
     {
+        // If moving left
         case LEFT:
-            if (vel.x > -5)
-                vel.x = -5;
-            this->_sprite->setFlippedX(true);
+            this->_sprite->setFlippedX(true); // Facing to the left
+            oxygine::log::messageln("Left");
+            
+            resAnim = bsh::Res::characters.getResAnim("playerRunning1x1");
+            if (strcasecmp(this->_sprite->getResAnim()->getName().c_str(), resAnim->getName().c_str()) != 0)
+            {
+                this->_sprite->setResAnim(resAnim);
+                this->_sprite->addTween(oxygine::TweenAnim(resAnim), constant::PLAYER_ANIM_SPEED, -1);
+            }
+            
+            if (vel.x >= -constant::MAX_PLAYER_X_VEL)
+            {
+                force = -(constant::MAX_PLAYER_X_VEL * constant::PLAYER_FORCE_MULTIPLIER);
+            }
             break;
 
+            // If not left or right
         case STOP:
-            force = vel.x * -100;
+            oxygine::log::messageln(this->_sprite->getResAnim()->getName().c_str());
+            resAnim = bsh::Res::characters.getResAnim("playerStanding1x1");
+            oxygine::log::messageln(resAnim->getName().c_str());
+            this->_sprite->setResAnim(resAnim);
+            this->_sprite->addTween(oxygine::TweenAnim(resAnim), constant::PLAYER_ANIM_SPEED, -1);
+        
+            if (strcasecmp(this->_sprite->getResAnim()->getName().c_str(), resAnim->getName().c_str()) != 0)
+            {
+                this->_sprite->setResAnim(resAnim);
+            }
+            
             vel.x = 0;
             break;
             
+            // If holding right
         case RIGHT:
-            this->_sprite->setFlippedX(false);
-            if (vel.x < 5)
-                vel.x = 5;
+            this->_sprite->setFlippedX(false); // Facing to the right
+            oxygine::log::messageln("Right");
+        
+            resAnim = bsh::Res::characters.getResAnim("playerRunning1x1");
+            if (strcasecmp(this->_sprite->getResAnim()->getName().c_str(), resAnim->getName().c_str()) != 0)
+            {
+                this->_sprite->setResAnim(resAnim);
+                this->_sprite->addTween(oxygine::TweenAnim(resAnim), constant::PLAYER_ANIM_SPEED, -1);
+            }
+            
+            if (vel.x <= constant::MAX_PLAYER_X_VEL)
+            {
+                force = constant::MAX_PLAYER_X_VEL * constant::PLAYER_FORCE_MULTIPLIER;
+            }
             break;
     }
+//    this->_body->SetLinearVelocity(vel);
+    if (force)
+    {
+        this->_body->ApplyForce(b2Vec2(force, 0), _body->GetWorldCenter(), true);
+    }
+    
+    //  Make sure player isn't moving over maximum speed
+    if (vel.x <= -constant::MAX_PLAYER_X_VEL)
+    {
+        vel.x = -constant::MAX_PLAYER_X_VEL + 0.0001f;
+    }
+    else if (vel.x >= constant::MAX_PLAYER_X_VEL)
+    {
+        vel.x = constant::MAX_PLAYER_X_VEL - 0.0001f;
+    }
     this->_body->SetLinearVelocity(vel);
-//    this->_body->ApplyForce(b2Vec2(force, 0), _body->GetWorldCenter(), true);
     
     // Get position of body after applying force
     b2Vec2 position = this->_body->GetPosition();

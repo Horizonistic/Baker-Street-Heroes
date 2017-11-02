@@ -62,9 +62,10 @@ void example_init()
 
 //called each frame from main.cpp
 void example_update() {
-    // timeStep, velocityIterations, positionIterations
     // todo: get physics to work with any framerate
     // This will require a way to apply force based on us.dt in doUpadate in classes like bsh::Player
+    
+    // timeStep, velocityIterations, positionIterations
     world->Step(IVideoDriver::_stats.duration / 1000.0f, 6, 2);
     
 }

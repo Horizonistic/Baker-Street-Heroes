@@ -58,6 +58,80 @@ void bsh::Game::loadLevel(std::string)
     document.load_buffer(&buffer.data[0], buffer.size());
     
     // todo: allow loading of different levels based on name
+    // Player initialization
+    for (const pugi::xpath_node player : document.select_node("bodies").node()
+                                            .select_node("player").node()
+                                            .select_nodes("sprite"))
+    {
+        oxygine::log::messageln(player.node().name());
+    
+        // Settings for the terrain
+        b2Vec2 playerPosition = b2Vec2(0.0f, 0.0f);
+        b2Vec2 playerSize = b2Vec2(0.0f, 0.0f);
+        oxygine::ResAnim *resAnim;
+    
+        for (auto attributes : player.node().attributes())
+        {
+            // Iterate over all attributes terrain
+            oxygine::log::messageln(attributes.name());
+            if (strcasecmp(attributes.name(), "name") == 0)
+            {
+                resAnim = bsh::Res::characters.getResAnim(attributes.as_string());
+            }
+            else if (strcasecmp(attributes.name(), "posX") == 0)
+            {
+                playerPosition.x = attributes.as_float();
+            }
+            else if (strcasecmp(attributes.name(), "posY") == 0)
+            {
+                playerPosition.y = attributes.as_float();
+            }
+            else if (strcasecmp(attributes.name(), "sizeX") == 0)
+            {
+                playerSize.x = attributes.as_float();
+            }
+            else if (strcasecmp(attributes.name(), "sizeY") == 0)
+            {
+                playerSize.y = attributes.as_float();
+            }
+        }
+    
+        b2BodyDef bodyDef;
+        bodyDef.type = b2_dynamicBody;
+        bodyDef.position.Set(playerPosition.x, playerPosition.y);
+        bodyDef.fixedRotation = true;
+        b2Body *body = this->_world->CreateBody(&bodyDef);
+    
+        // Creating polygon
+        b2PolygonShape dynamicBox;
+        dynamicBox.SetAsBox(playerSize.x / 2, playerSize.y / 2, {playerSize.x / 2, playerSize.y / 2}, 0);
+        
+        // Create body's fixture (figure out more of what that means)
+        b2FixtureDef fixtureDef;
+        fixtureDef.shape = &dynamicBox;
+        fixtureDef.density = 10.0f;
+        fixtureDef.friction = 0.0f;
+    
+        body->CreateFixture(&fixtureDef);
+        
+        // Foot sensor sensor
+        b2CircleShape circleShape;
+        circleShape.m_radius = playerSize.x / 4.0f;
+        circleShape.m_p = b2Vec2(playerSize.x / 2, playerSize.y);
+        
+        fixtureDef.shape = &circleShape;
+        fixtureDef.isSensor = true;
+        fixtureDef.filter.categoryBits = oxygine::entityType::PLAYER_SENSOR;
+        fixtureDef.filter.maskBits = oxygine::entityType::TERRAIN;
+        body->CreateFixture(&fixtureDef);
+    
+        this->_player = new Player(*this->_world, body, resAnim);
+        
+        oxygine::getStage()->addChild(this->_player);
+    }
+    
+    
+    
     // Iterate over all terrain
     for (const pugi::xpath_node sprite : document.select_node("bodies").node()
                                                  .select_node("terrain").node()
@@ -162,79 +236,6 @@ void bsh::Game::loadLevel(std::string)
         spGroundBox->setPosition(bsh::convert(groundPosition));
         spGroundBox->setSize(bsh::convert(groundSize));
         oxygine::getStage()->addChild(spGroundBox);
-    }
-    
-    
-    // Player initialization
-    for (const pugi::xpath_node player : document.select_node("bodies").node()
-                                            .select_node("player").node()
-                                            .select_nodes("sprite"))
-    {
-        oxygine::log::messageln(player.node().name());
-    
-        // Settings for the terrain
-        b2Vec2 playerPosition = b2Vec2(0.0f, 0.0f);
-        b2Vec2 playerSize = b2Vec2(0.0f, 0.0f);
-        oxygine::ResAnim *resAnim;
-    
-        for (auto attributes : player.node().attributes())
-        {
-            // Iterate over all attributes terrain
-            oxygine::log::messageln(attributes.name());
-            if (strcasecmp(attributes.name(), "name") == 0)
-            {
-                resAnim = bsh::Res::characters.getResAnim(attributes.as_string());
-            }
-            else if (strcasecmp(attributes.name(), "posX") == 0)
-            {
-                playerPosition.x = attributes.as_float();
-            }
-            else if (strcasecmp(attributes.name(), "posY") == 0)
-            {
-                playerPosition.y = attributes.as_float();
-            }
-            else if (strcasecmp(attributes.name(), "sizeX") == 0)
-            {
-                playerSize.x = attributes.as_float();
-            }
-            else if (strcasecmp(attributes.name(), "sizeY") == 0)
-            {
-                playerSize.y = attributes.as_float();
-            }
-        }
-    
-        b2BodyDef bodyDef;
-        bodyDef.type = b2_dynamicBody;
-        bodyDef.position.Set(playerPosition.x, playerPosition.y);
-        bodyDef.fixedRotation = true;
-        b2Body *body = this->_world->CreateBody(&bodyDef);
-    
-        // Creating polygon
-        b2PolygonShape dynamicBox;
-        dynamicBox.SetAsBox(playerSize.x / 2, playerSize.y / 2, {playerSize.x / 2, playerSize.y / 2}, 0);
-    
-        // Create body's fixture (figure out more of what that means)
-        b2FixtureDef fixtureDef;
-        fixtureDef.shape = &dynamicBox;
-        fixtureDef.density = 10.0f;
-        fixtureDef.friction = 0.0f;
-    
-        body->CreateFixture(&fixtureDef);
-        
-        // Foot sensor sensor
-        b2CircleShape circleShape;
-        circleShape.m_radius = playerSize.x / 3.0f;
-        circleShape.m_p = b2Vec2(playerSize.x / 2, playerSize.y);
-        
-        fixtureDef.shape = &circleShape;
-        fixtureDef.isSensor = true;
-        fixtureDef.filter.categoryBits = oxygine::entityType::PLAYER_SENSOR;
-        fixtureDef.filter.maskBits = oxygine::entityType::TERRAIN;
-        body->CreateFixture(&fixtureDef);
-    
-        this->_player = new Player(*this->_world, body, resAnim);
-        
-        oxygine::getStage()->addChild(this->_player);
     }
 }
 

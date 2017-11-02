@@ -8,10 +8,14 @@
                 stretchHor="2" stretchVer="2"
                 posX="10.0" posY="4.0"
                 sizeX="2.0" sizeY="1.0"/>
+        <sprite name="tempterrain"
+                stretchHor="2" stretchVer="2"
+                posX="9.0" posY="5.0"
+                sizeX="0.5" sizeY="0.5"/>
     </terrain>
     <player>
-        <sprite name="playerStanding"
+        <sprite name="playerStanding1x1"
                 posX="0.0" posY="0.0"
-                sizeX="0.5" sizeY="0.97"/>
+                sizeX="0.47" sizeY="0.47"/>
     </player>
 </bodies>

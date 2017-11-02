@@ -4,5 +4,7 @@
 	<atlas>
 		<image file="defaultPlayerAnim.png" cols="2"/>
 		<image file="playerStanding.png" cols="1"/>
+		<image file="playerRunning1x1.png" cols="6"/>
+		<image file="playerStanding1x1.png" cols="1"/>
 	</atlas>
 </resources>

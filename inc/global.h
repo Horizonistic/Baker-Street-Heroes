@@ -15,7 +15,14 @@ namespace bsh
     {
         // This is the pixel/meter scale.  100.0f = 100 pixels per meter
         const float SCALE = 100.0f;
-        const b2Vec2 GRAVITY = b2Vec2{0.0f, 25.0f};
+        const b2Vec2 GRAVITY = b2Vec2{0.0f, 50.0f};
+        
+        // Player
+        const float MAX_PLAYER_X_VEL = 5.0f;
+        const int PLAYER_FORCE_MULTIPLIER = 200;
+        const float PLAYER_JUMP_FORCE = 12.0f;
+        
+        const int PLAYER_ANIM_SPEED = 300;
     }
     
     // b2Vec2 is meters, and oxygine::Vector2 is pixels
