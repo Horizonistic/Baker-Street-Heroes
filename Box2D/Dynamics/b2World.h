@@ -208,8 +208,22 @@ public:
 	/// Dump the world into the log file.
 	/// @warning this should be called outside of a time step.
 	void Dump();
-
+    
+    // Custom
+	/// Set the world to paused
+    /// This doesn't actually do anything; it's up to the implementation detect when it's paused and what to do with that information.
+    void pauseWorld();
+    
+    /// Sets the world to unpaused
+    /// This doesn't actually do anything; it's up to the implementation detect when it's paused and what to do with that information.
+    void unpauseWorld();
+    
+    /// Returns if the world is paused or not
+    bool isPaused() const;
+    
 private:
+    // Custom
+    bool m_paused;
 
 	// m_flags
 	enum

@@ -24,7 +24,7 @@ namespace bsh
         GameScene(b2World &world);
     
     private:
-        const b2World &_world;
+        b2World &_world;
         spGame _game;
         oxygine::spActor _button;
         

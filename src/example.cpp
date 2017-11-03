@@ -1,6 +1,7 @@
 #include <gamescene.h>
 #include <iostream>
 #include <contactListener.h>
+#include <menuscene.h>
 #include "oxygine-framework.h"
 
 #include "../inc/player.h"
@@ -41,8 +42,10 @@ void example_init()
     b2Vec2 gravity(bsh::constant::GRAVITY);
     world = new b2World(gravity);
 
+    bsh::MenuScene::instance = new bsh::MenuScene(*world);
+    bsh::MenuScene::instance->show();
+    
     bsh::GameScene::instance = new bsh::GameScene(*world);
-    bsh::GameScene::instance->show();
     
     world->SetContactListener(&playerContactListener);
     
@@ -66,7 +69,14 @@ void example_update() {
     // This will require a way to apply force based on us.dt in doUpadate in classes like bsh::Player
     
     // timeStep, velocityIterations, positionIterations
-    world->Step(IVideoDriver::_stats.duration / 1000.0f, 6, 2);
+    if (!world->isPaused())
+    {
+        world->Step(IVideoDriver::_stats.duration / 1000.0f, 6, 2);
+    }
+//    else
+//    {
+//        world->Step(0, 6, 2);
+//    }
     
 }
 

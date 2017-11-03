@@ -36,6 +36,8 @@
 
 b2World::b2World(const b2Vec2& gravity)
 {
+    m_paused = false;
+    
 	m_destructionListener = nullptr;
 	g_debugDraw = nullptr;
 
@@ -419,7 +421,7 @@ void b2World::Solve(const b2TimeStep& step)
 		{
 			continue;
 		}
-
+  
 		if (seed->IsAwake() == false || seed->IsActive() == false)
 		{
 			continue;
@@ -1354,4 +1356,20 @@ void b2World::Dump()
 	b2Log("b2Free(bodies);\n");
 	b2Log("joints = nullptr;\n");
 	b2Log("bodies = nullptr;\n");
+}
+
+void b2World::pauseWorld()
+{
+    this->m_paused = true;
+}
+
+
+void b2World::unpauseWorld()
+{
+    this->m_paused = false;
+}
+
+bool b2World::isPaused() const
+{
+    return this->m_paused;
 }

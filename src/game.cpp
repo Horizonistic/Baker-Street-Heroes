@@ -36,7 +36,7 @@ void bsh::Game::init(b2World *world)
     
 }
 
-void bsh::Game::loadLevel(std::string)
+void bsh::Game::loadLevel(std::string level)
 {
     // Remove old level
     b2Body *body = this->_world->GetBodyList();

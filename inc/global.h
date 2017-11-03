@@ -25,6 +25,8 @@ namespace bsh
         const int PLAYER_ANIM_SPEED = 300;
     }
     
+    // States
+    
     // b2Vec2 is meters, and oxygine::Vector2 is pixels
     // Going from b2 to oxygine is meters to pixels
     // And vice versa, oxygine to b2 is pixels to meters
