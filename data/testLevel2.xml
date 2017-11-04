@@ -1,0 +1,21 @@
+<bodies>
+    <terrain>
+        <sprite name="tempterrain"
+                stretchHor="2" stretchVer="2"
+                posX="0.0" posY="7.0"
+                sizeX="18.0" sizeY="5.0"/>
+        <sprite name="tempterrain"
+                stretchHor="2" stretchVer="2"
+                posX="10.0" posY="4.0"
+                sizeX="4.0" sizeY="0.5"/>
+        <sprite name="tempterrain"
+                stretchHor="2" stretchVer="2"
+                posX="8.0" posY="6.0"
+                sizeX="1.0" sizeY="0.5"/>
+    </terrain>
+    <player>
+        <sprite name="playerStanding1x1"
+                posX="0.0" posY="0.0"
+                sizeX="0.47" sizeY="0.47"/>
+    </player>
+</bodies>

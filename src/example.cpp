@@ -73,10 +73,6 @@ void example_update() {
     {
         world->Step(IVideoDriver::_stats.duration / 1000.0f, 6, 2);
     }
-//    else
-//    {
-//        world->Step(0, 6, 2);
-//    }
     
 }
 

@@ -41,6 +41,7 @@ namespace bsh
     private:
         b2World &_world;
         b2Body *_body;
+//        b2Body *expiriment;
     
         bool _canJump;
         moveState _moveState;

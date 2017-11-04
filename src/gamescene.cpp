@@ -18,43 +18,68 @@ bsh::GameScene::GameScene(b2World &world): _world(world)
     this->_game->getClock()->pause();
     this->_world.pauseWorld();
     
-    spButton btn = oxygine::initActor(new Button,
-                                      oxygine::arg_resAnim = bsh::Res::ui.getResAnim("buttons"),
-                                      oxygine::arg_anchor = oxygine::Vector2(0.5f, 0.5f),
-                                      oxygine::arg_attachTo = _view);
+    oxygine::file::buffer buffer;
+    oxygine::file::read("levels.xml", buffer);
     
-    // Align to top right
-    btn->setX(_view->getWidth() - btn->getWidth() / 2);
-    btn->setY(btn->getHeight() / 2);
+    pugi::xml_document document;
+    document.load_buffer(&buffer.data[0], buffer.size());
     
-    //handle click to menu
-    btn->addEventListener(oxygine::TouchEvent::CLICK, CLOSURE(this, &GameScene::onEvent));
-    btn->setText("Load");
-    btn->setName("load");
+    // todo: allow loading of different levels based on name
+    // Setting up level loading menu and buttons from levels.xml
+    oxygine::log::messageln("Loading menu buttons");
+    int pos = 1;
+    for (const pugi::xpath_node level : document.select_node("levels").node()
+                                                 .select_nodes("level"))
+    {
     
+        // Get the size to know where to place the buttons
+        int size = (int) document.select_node("levels").node().select_nodes("level").size();
+        std::string name;
+        std::string file;
+        
+        for (auto attributes : level.node().attributes())
+        {
+            if (strcasecmp(attributes.name(), "name") == 0)
+            {
+                name = attributes.as_string();
+            }
+            else if (strcasecmp(attributes.name(), "file") == 0)
+            {
+                file = attributes.as_string();
+            }
+        }
+        spButton btn = oxygine::initActor(new Button,
+                                          oxygine::arg_resAnim = bsh::Res::ui.getResAnim("buttons"),
+                                          oxygine::arg_anchor = oxygine::Vector2(0.5f, 0.5f),
+                                          oxygine::arg_attachTo = _view);
     
+        // Align to top right
+        btn->setX(_view->getWidth() / 2);
+        btn->setY(((btn->getHeight()) * (pos / size)) + (btn->getHeight() / 2));
+    
+        //handle click to menu
+        btn->addEventListener(oxygine::TouchEvent::CLICK, CLOSURE(this, &GameScene::onEvent));
+        btn->setText(name);
+        btn->setName(file);
+//        btn->setUserData(&file);
+        
+        pos++;
+    }
 }
 
 void bsh::GameScene::onEvent(oxygine::Event *ev)
 {
-    if (std::string("load") == ev->currentTarget->getName())
-    {
-        this->_game->loadLevel("test");
-        spButton btn2 = oxygine::initActor(new Button,
-                                                                          oxygine::arg_resAnim = bsh::Res::ui.getResAnim("buttons"),
-                                                                          oxygine::arg_anchor = oxygine::Vector2(0.5f, 0.5f),
-                                                                          oxygine::arg_attachTo = _view);
+    // Useful cast to get from void* to std::string*
+    // Used for when I was trying to store std::string in the user data of oxygine::Object
+    // spButton button = static_cast< spButton >(ev->);
     
-        btn2->setX(_view->getWidth() - btn2->getWidth() / 2);
-        btn2->setY(btn2->getHeight() / 2);
-    
-        //handle click to menu
-        btn2->addEventListener(oxygine::TouchEvent::CLICK, CLOSURE(this, &GameScene::onEvent));
-        btn2->setText("Start");
-        btn2->setName("startClock");
-    }
-    if (std::string("startClock") == ev->currentTarget->getName())
+    // Get last 4 digits of the name to check if it's an XML file or not
+    // If it is then load the corresponding level
+    auto str = ev->currentTarget->getName();
+    auto suffix = str.substr(str.length() - 4);
+    if (strcmp(suffix.c_str(), ".xml") == 0)
     {
+        this->_game->loadLevel(str);
         this->_game->getClock()->resume();
         this->_world.unpauseWorld();
     }

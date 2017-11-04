@@ -22,16 +22,17 @@ void bsh::Game::init(b2World *world)
     this->_world = world;
     this->setSize(oxygine::getStage()->getSize());
     
+    // todo: determine background sprite from level data
     // Background
-    oxygine::spSprite background = new oxygine::Sprite;
+//    oxygine::spSprite background = new oxygine::Sprite;
 //    background->setResAnim();
-    background->attachTo(this);
+//    background->attachTo(this);
     
-    
+    // todo: add basic health capability and UI
     // UI
-    this->_ui = new oxygine::Actor;
-    this->_ui->attachTo(this);
-    this->_ui->setPriority(1);
+//    this->_ui = new oxygine::Actor;
+//    this->_ui->attachTo(this);
+//    this->_ui->setPriority(1);
     // Attach stuff to the UI here
     
 }
@@ -46,26 +47,25 @@ void bsh::Game::loadLevel(std::string level)
         body = body->GetNext();
     }
     
-    b2BodyDef* groundBodyDef;
-    b2Body* groundBody;
-    oxygine::Box9Sprite* spGroundBox;
+    this->removeChildren();
     
-    // Begin reading level file
+    // Load file to buffer
     oxygine::file::buffer buffer;
-    oxygine::file::read("levels.xml", buffer);
+    oxygine::file::read(level, buffer);
     
+    // Load buffer as XML document
     pugi::xml_document document;
     document.load_buffer(&buffer.data[0], buffer.size());
     
-    // todo: allow loading of different levels based on name
     // Player initialization
+    // todo: allow player sprite choosing from menu
+    // Menu will chose which character to use, while the level file will determine where the players spawn
+    // Also need to allow amount of players selection, and figure out how to define multiple spawnpoints in a level file
     for (const pugi::xpath_node player : document.select_node("bodies").node()
                                             .select_node("player").node()
                                             .select_nodes("sprite"))
     {
-        oxygine::log::messageln(player.node().name());
-    
-        // Settings for the terrain
+        // Settings for the player
         b2Vec2 playerPosition = b2Vec2(0.0f, 0.0f);
         b2Vec2 playerSize = b2Vec2(0.0f, 0.0f);
         oxygine::ResAnim *resAnim;
@@ -73,7 +73,6 @@ void bsh::Game::loadLevel(std::string level)
         for (auto attributes : player.node().attributes())
         {
             // Iterate over all attributes terrain
-            oxygine::log::messageln(attributes.name());
             if (strcasecmp(attributes.name(), "name") == 0)
             {
                 resAnim = bsh::Res::characters.getResAnim(attributes.as_string());
@@ -125,20 +124,21 @@ void bsh::Game::loadLevel(std::string level)
         fixtureDef.filter.maskBits = oxygine::entityType::TERRAIN;
         body->CreateFixture(&fixtureDef);
     
+        oxygine::getStage()->removeChild(this->_player);
         this->_player = new Player(*this->_world, body, resAnim);
-        
         oxygine::getStage()->addChild(this->_player);
     }
     
     
     
     // Iterate over all terrain
+    b2BodyDef* groundBodyDef;
+    b2Body* groundBody;
+    oxygine::Box9Sprite* spGroundBox;
     for (const pugi::xpath_node sprite : document.select_node("bodies").node()
                                                  .select_node("terrain").node()
                                                  .select_nodes("sprite"))
     {
-        oxygine::log::messageln(sprite.node().name());
-        
         // Settings for the terrain
         // todo: remove duplication of code between loading terrain and player
         b2Vec2 groundPosition = b2Vec2(0.0f, 0.0f);
@@ -150,7 +150,6 @@ void bsh::Game::loadLevel(std::string level)
         // Iterate over all attributes terrain
         for (auto attributes : sprite.node().attributes())
         {
-            oxygine::log::messageln(attributes.name());
             if (strcasecmp(attributes.name(), "name") == 0)
             {
                 resAnim = bsh::Res::terrain.getResAnim(attributes.as_string());
@@ -228,14 +227,17 @@ void bsh::Game::loadLevel(std::string level)
         groundBox->SetAsBox(groundSize.x / 2, groundSize.y / 2, {groundSize.x / 2, groundSize.y / 2}, 0);
         groundBody->CreateFixture(groundBox, 0.0f);
         
+        // Sprite
         spGroundBox = new oxygine::Box9Sprite();
         spGroundBox->setResAnim(resAnim);
         spGroundBox->setHorizontalMode(stretchModeHorizontal);
         spGroundBox->setVerticalMode(stretchModeVertical);
-        
         spGroundBox->setPosition(bsh::convert(groundPosition));
         spGroundBox->setSize(bsh::convert(groundSize));
-        oxygine::getStage()->addChild(spGroundBox);
+        spGroundBox->setEntityType(oxygine::TERRAIN);
+        
+        // Attach to Game instance
+        this->addChild(spGroundBox);
     }
 }
 

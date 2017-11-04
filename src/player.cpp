@@ -24,14 +24,32 @@ bsh::Player::Player(b2World &world, b2Body *body, oxygine::ResAnim *resAnim) :
     this->setPosition(bsh::convert(this->_body->GetPosition()));
     
     this->_body->SetUserData(this);
-//    this->_body->SetUserData((void*) constant::_entityType::PLAYER);
+    
+    /*
+     * Needed for expiriment with attack hitboxes
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_staticBody;
+    bodyDef.position.Set(5, 5);
+    bodyDef.fixedRotation = true;
+    b2Body *body2 = this->_world.CreateBody(&bodyDef);
+    
+    // Creating polygon
+    b2PolygonShape dynamicBox;
+    dynamicBox.SetAsBox(4 / 2, 4 / 2, {4 / 2, 4 / 2}, 0);
+    
+    // Create body's fixture (figure out more of what that means)
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &dynamicBox;
+    fixtureDef.density = 10.0f;
+    fixtureDef.friction = 0.0f;
+    
+    body2->CreateFixture(&fixtureDef);
+    this->expiriment = body2;
+     */
+
     // When setting sprite position, it's based off of what it's attached to
     // In this case, it's attached to this->, an actor
 //    this->sprite->setPosition(game::convert(position));
-    
-    // Creating a dynamic body
-    // Creating the definition, setting position and type
-    
 }
 
 bsh::Player::~Player()
@@ -41,7 +59,20 @@ bsh::Player::~Player()
 
 void bsh::Player::doUpdate(const oxygine::UpdateState &us)
 {
-//    float speed = 1000.0f * (us.dt / 1000.0f);
+
+    /*
+     * Experimental stuff for attack hitboxes
+    int a = 5;
+    int b = 5;
+    int r = 2;
+
+     (std::pow(x - b, 2) + std::pow(y - a, 2))
+    for (int x = 0; x < 10; x++)
+    {
+         oxygine::log::messageln(std::to_string(std::pow(x - b, 2) + std::pow(y - a, 2)).c_str()); //= pow(r, 2);
+    }
+     */
+
     const Uint8* data = SDL_GetKeyboardState(0);
     
     b2Vec2 vel = this->_body->GetLinearVelocity();
@@ -77,12 +108,12 @@ void bsh::Player::doUpdate(const oxygine::UpdateState &us)
         // If moving left
         case LEFT:
             this->_sprite->setFlippedX(true); // Facing to the left
-            oxygine::log::messageln("Left");
             
             resAnim = bsh::Res::characters.getResAnim("playerRunning1x1");
             if (strcasecmp(this->_sprite->getResAnim()->getName().c_str(), resAnim->getName().c_str()) != 0)
             {
                 this->_sprite->setResAnim(resAnim);
+                this->_sprite->removeTweens();
                 this->_sprite->addTween(oxygine::TweenAnim(resAnim), constant::PLAYER_ANIM_SPEED, -1);
             }
             
@@ -94,10 +125,9 @@ void bsh::Player::doUpdate(const oxygine::UpdateState &us)
 
             // If not left or right
         case STOP:
-            oxygine::log::messageln(this->_sprite->getResAnim()->getName().c_str());
             resAnim = bsh::Res::characters.getResAnim("playerStanding1x1");
-            oxygine::log::messageln(resAnim->getName().c_str());
             this->_sprite->setResAnim(resAnim);
+            this->_sprite->removeTweens();
             this->_sprite->addTween(oxygine::TweenAnim(resAnim), constant::PLAYER_ANIM_SPEED, -1);
         
             if (strcasecmp(this->_sprite->getResAnim()->getName().c_str(), resAnim->getName().c_str()) != 0)
@@ -111,12 +141,12 @@ void bsh::Player::doUpdate(const oxygine::UpdateState &us)
             // If holding right
         case RIGHT:
             this->_sprite->setFlippedX(false); // Facing to the right
-            oxygine::log::messageln("Right");
         
             resAnim = bsh::Res::characters.getResAnim("playerRunning1x1");
             if (strcasecmp(this->_sprite->getResAnim()->getName().c_str(), resAnim->getName().c_str()) != 0)
             {
                 this->_sprite->setResAnim(resAnim);
+                this->_sprite->removeTweens();
                 this->_sprite->addTween(oxygine::TweenAnim(resAnim), constant::PLAYER_ANIM_SPEED, -1);
             }
             
