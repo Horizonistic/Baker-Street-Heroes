@@ -8,6 +8,12 @@
 #include "../inc/player.h"
 #include "../Box2D/Box2D.h"
 
+// todo: add jumping animation
+// todo: add attacking animation
+// todo: add easier way to add animations to character
+// Might want to add animation .xml file for each character, maybe each character with a different
+// folder, so it requires only a loading of a single .xml file.
+
 bsh::Player::Player(b2World &world, b2Body *body, oxygine::ResAnim *resAnim) :
         _world(world),
         _canJump(false)

@@ -7,6 +7,8 @@
 #include <gamescene.h>
 #include <resources.h>
 
+// todo: future: weather effects like rain
+
 spGameScene bsh::GameScene::instance;
 
 bsh::GameScene::GameScene(b2World &world): _world(world)
@@ -24,7 +26,6 @@ bsh::GameScene::GameScene(b2World &world): _world(world)
     pugi::xml_document document;
     document.load_buffer(&buffer.data[0], buffer.size());
     
-    // todo: allow loading of different levels based on name
     // Setting up level loading menu and buttons from levels.xml
     oxygine::log::messageln("Loading menu buttons");
     int pos = 1;

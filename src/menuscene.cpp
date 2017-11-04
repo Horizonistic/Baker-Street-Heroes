@@ -11,7 +11,8 @@ spMenuScene bsh::MenuScene::instance;
 
 bsh::MenuScene::MenuScene(b2World &world): _world(world)
 {
-    // todo: dynamic loading based on XML files
+    // todo: actual main menu, with options to select character, settings, and levels
+    // Have character selection under level selection
     spButton btn = oxygine::initActor(new Button,
                                       oxygine::arg_resAnim = bsh::Res::ui.getResAnim("buttons"),
                                       oxygine::arg_anchor = oxygine::Vector2(0.5f, 0.5f),

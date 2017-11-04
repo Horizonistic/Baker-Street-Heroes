@@ -11,6 +11,13 @@
 #include "../Box2D/Dynamics/b2Fixture.h"
 #include "../Box2D/Collision/Shapes/b2CircleShape.h"
 
+// todo: be wary of class size; it seems to be doing too much with too long of functions
+// todo: maybe add ability to switch sprites on the fly?
+// This could require a different level.xml files per theme.
+// Only sprite switching is necessary, so it might be possible to iterate over all sprites
+// that are attached to the game instance and change them that way.  It might also require
+// straight up removing them all and then reattaching them all the the b2Bodies.
+
 bsh::Game::Game(): _world()
 {}
 
@@ -28,7 +35,9 @@ void bsh::Game::init(b2World *world)
 //    background->setResAnim();
 //    background->attachTo(this);
     
+    // todo: add UI class??
     // todo: add basic health capability and UI
+    // todo: add pause menu and return to main menu capability
     // UI
 //    this->_ui = new oxygine::Actor;
 //    this->_ui->attachTo(this);
@@ -39,14 +48,15 @@ void bsh::Game::init(b2World *world)
 
 void bsh::Game::loadLevel(std::string level)
 {
-    // Remove old level
+    // todo: allow definition of physical bodies with sprites, physical bodies without sprites, and just sprites
+    // Remove old bodies
     b2Body *body = this->_world->GetBodyList();
     while (body)
     {
         this->_world->DestroyBody(body);
         body = body->GetNext();
     }
-    
+    // Remove old sprites
     this->removeChildren();
     
     // Load file to buffer
